@@ -9,7 +9,7 @@ export default function Home() {
   const [latestMessage, setLatestMessage] = useState<string>(
     "Type !g with a question in Twitch Chat!"
   );
-  const [currentQuestion, setCurrentQuestion] = useState<number>(1);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
   const [recordedAnswers, setRecordedAnswers] = useState<string[]>([]);
   const [messageTimeout, setMessageTimeout] = useState<NodeJS.Timeout | null>(
@@ -41,7 +41,9 @@ export default function Home() {
         clearTimeout(messageTimeout);
       }
 
-      setLatestMessage(`${tags["display-name"]}: ${message}`);
+      if (message.startsWith("!g")) {
+        setLatestMessage(`${tags["display-name"]}: ${message}`);
+      }
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setMessageTimeout(
         setTimeout(() => {
@@ -94,7 +96,7 @@ export default function Home() {
     setLatestMessage("Type !g with a question in Twitch Chat!");
     setRandomAnswer(null);
     setActiveRandomAnswer(null);
-    setCurrentQuestion(1);
+    setCurrentQuestion(0);
     setIsListening(false);
     setChatMessages([]);
 
